@@ -32,10 +32,19 @@ The Express API allows to interact with the smart contract through HTTP requests
 - **Web3.js**: JavaScript library to interact with Ethereum.
 - **Express**: Web application framework for Node.js.
 - **Postman**: Tool for testing APIs
+  
+## API Endpoints
+
+| Endpoint                               | Method | Request Body Example                                   |
+|----------------------------------------|--------|-------------------------------------------------------|
+| `/api/totalSupply`                    | GET    | N/A                                                   |
+| `/api/balance/:address`               | GET    | N/A                                                   |
+| `/api/transfer`                       | POST   | `{ "recipientAddress": "0xRecipientAddress", "amount": "100" }` |
+| `/api/approve`                        | POST   | `{ "spenderAddress": "0xSpenderAddress", "amount": "50" }` |
+| `/api/transferFrom`                  | POST   | `{ "fromAddress": "0xOwnerAddress", "toAddress": "0xRecipientAddress", "amount": "30" }` |
+| `/api/allowance/:owner/:spender`      | GET    | N/A                                                   |
 
 ## Installation
-
-
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/HudaSeyam/ERC-20-Token-API.git
@@ -57,15 +66,8 @@ Once installed, start Ganache to simulate the blockchain:
 ```bash
 ganache-cli
 ```
-### 4. Configure MetaMask
 
-To interact with your DApp through the browser, install the MetaMask extension for Google Chrome.
-After installation:
-
-- Connect MetaMask to the Ganache network (usually http://127.0.0.1:7545).
-- Import an account from Ganache by using the private key from one of the accounts listed in the Ganache terminal.
-
-### 5. Compile and Migrate Smart Contract
+### 4. Compile and Migrate Smart Contract
 
 Use the Truffle Framework to compile the Solidity smart contract and deploy it to your local blockchain (Ganache):
 ```bash
@@ -75,3 +77,33 @@ truffle migrate
 - truffle compile: Compiles the Solidity contract (Storage.sol).
 - truffle migrate: Deploys the contract to the blockchain (in this case, Ganache).
   
+### 5. Setup Ganache Address
+
+Before running the API, ensure that you replace the contract and account addresses in the `api.js` file with the addresses provided by Ganache.
+
+1. **Open `api.js`**:
+2. **Update Contract Address**:
+ Open the `api.js` file and replace the following lines:
+
+```javascript
+var myAddress = '0x6Ef2008935c566100f799f9CE3a992aeC8C1f1C8'; // Your account address
+var contractAddress = "0xe61ae5A2124BE55A303C4F70cB9899079eB10A9b"; // Deployed contract address
+```
+
+### 6. Run the Express server:
+The server will run on http://localhost:3030
+```bash
+node .\API\api.js
+```
+ ### 7. Testing with Postman
+You can use Postman to test the API endpoints provided by the ERC-20 Token API.
+
+1. **Launch Postman**.
+2. **Test the Endpoints**:Use the above API endpoints to interact with the smart contract
+3. **Sending Requests**:
+   - For `GET` requests, simply enter the endpoint URL and click **Send**.
+   - For `POST` requests, select the **Body** tab, choose **raw** and set the format to **JSON**, then paste the appropriate request body.
+
+4. **Review Responses**: The API will return JSON responses, which you can review to verify that the contract is functioning as expected.
+
+ 
